@@ -1,3 +1,4 @@
+import 'package:chatee/auth/login_screen.dart';
 import 'package:chatee/screens/home_screen.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         darkTheme: darkTheme,
-        home: const HomeScreen(),
+        home: const LoginScreen(),
       ),
     );
   }
