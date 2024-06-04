@@ -1,7 +1,9 @@
+import 'package:chatee/providers/auth_provider.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
     return Scaffold(
       body: Center(
         child: Padding(
@@ -104,11 +107,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30,
                     ),
                     Center(
-                      child: ElevatedButton(
-                        onPressed: _controller.text.length < 10 ? null : () {},
-                        style: ElevatedButton.styleFrom(),
-                        child: const Text('Send code'),
-                      ),
+                      child: authProvider.isLoading
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                              onPressed: _controller.text.length < 10
+                                  ? null
+                                  : () {
+                                      authProvider.signInWithPhoneNumber(
+                                        phoneNumber:
+                                            '+${_selectedCountry.phoneCode}${_controller.text}',
+                                        context: context,
+                                      );
+                                      print(
+                                          '+${_selectedCountry.countryCode}${_controller.text}');
+                                    },
+                              style: ElevatedButton.styleFrom(),
+                              child: const Text('Send code'),
+                            ),
                     )
                   ],
                 ),
