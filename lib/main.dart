@@ -1,4 +1,5 @@
 import 'package:chatee/auth/login_screen.dart';
+import 'package:chatee/auth/otp_screen.dart';
 import 'package:chatee/providers/auth_provider.dart';
 import 'package:chatee/screens/home_screen.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         darkTheme: darkTheme,
-        home: const LoginScreen(),
+        home: const OTPScreen(),
       ),
     );
   }
