@@ -3,6 +3,7 @@ import 'package:chatee/auth/otp_screen.dart';
 import 'package:chatee/providers/auth_provider.dart';
 import 'package:chatee/screens/home_screen.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:chatee/screens/user_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         darkTheme: darkTheme,
-        home: const OTPScreen(),
+        home: const UserInfoScreen(),
       ),
     );
   }

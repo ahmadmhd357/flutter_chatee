@@ -109,7 +109,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   'Didn’t receive code?',
                   style: GoogleFonts.poppins(
                     fontSize: 16,
-                    color: const Color.fromRGBO(62, 116, 165, 1),
+                    color: Colors.black,
                   ),
                 ),
                 TextButton(
@@ -118,7 +118,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     'Resend',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      decoration: TextDecoration.underline,
+                      
                       color: const Color.fromRGBO(62, 116, 165, 1),
                     ),
                   ),
