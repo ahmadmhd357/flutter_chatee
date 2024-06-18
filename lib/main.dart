@@ -1,8 +1,12 @@
 import 'package:chatee/auth/login_screen.dart';
 import 'package:chatee/auth/otp_screen.dart';
 import 'package:chatee/providers/auth_provider.dart';
+import 'package:chatee/screens/chats_screen.dart';
+import 'package:chatee/screens/contacts_screen.dart';
+import 'package:chatee/screens/groups_screen.dart';
 import 'package:chatee/screens/home_screen.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:chatee/screens/setting_screen.dart';
 import 'package:chatee/screens/user_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,7 +49,17 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         darkTheme: darkTheme,
-        home: const UserInfoScreen(),
+        initialRoute: "/loginScreen",
+        routes: {
+          "/loginScreen": (context) => const LoginScreen(),
+          "/otpScreen": (context) => const OTPScreen(),
+          "/userInfoScreen": (context) => const UserInfoScreen(),
+          "/chats": (context) => const ChatsScreen(),
+          "/home": (context) => const HomeScreen(),
+          "/contacts": (context) => const ContactsScreen(),
+          "/groups": (context) => const GroupsScreen(),
+          "/setting": (context) => const SettingScreen(),
+        },
       ),
     );
   }

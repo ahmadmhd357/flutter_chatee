@@ -118,8 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                             '+${_selectedCountry.phoneCode}${_controller.text}',
                                         context: context,
                                       );
-                                      print(
-                                          '+${_selectedCountry.countryCode}${_controller.text}');
                                     },
                               style: ElevatedButton.styleFrom(),
                               child: const Text('Send code'),

@@ -1,6 +1,8 @@
+import 'package:chatee/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({super.key});
@@ -118,7 +120,6 @@ class _OTPScreenState extends State<OTPScreen> {
                     'Resend',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      
                       color: const Color.fromRGBO(62, 116, 165, 1),
                     ),
                   ),
@@ -129,5 +130,24 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
       ),
     );
+  }
+
+  void verifyCode({
+    required String verificationId,
+    required String code,
+  }) {
+    final authProvider = context.read<AuthProvider>();
+    authProvider.verifyOTPCode(
+        context: context,
+        code: code,
+        verificationId: verificationId,
+        onSuccess: () async {
+          bool userExists = await authProvider.checkUserExists();
+          if(userExists){
+
+          }else{
+            
+          }
+        });
   }
 }
