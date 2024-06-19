@@ -25,6 +25,9 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final verificationId = args['verificationId'] as String;
+    final phoneNumber = args['phoneNumber'] as String;
     final defaultPinTheme = PinTheme(
       width: 60,
       height: 64,
@@ -79,7 +82,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   height: 10,
                 ),
                 Text(
-                  '905050917462',
+                  phoneNumber,
                   style: GoogleFonts.openSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -102,6 +105,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     setState(() {
                       otpCode = pin;
                     });
+                    verifyCode(verificationId: verificationId, code: otpCode!);
                   },
                 ),
                 const SizedBox(
@@ -143,11 +147,21 @@ class _OTPScreenState extends State<OTPScreen> {
         verificationId: verificationId,
         onSuccess: () async {
           bool userExists = await authProvider.checkUserExists();
-          if(userExists){
-
-          }else{
-            
+          if (userExists) {
+            await authProvider.getUserData();
+            await authProvider.saveUserToSharedPreferences();
+            navigate(userExists = true);
+          } else {
+            navigate(userExists = false);
           }
         });
+  }
+
+  void navigate(bool userExists) {
+    userExists
+        ? Navigator.of(context)
+            .pushNamedAndRemoveUntil('home', (route) => false)
+        : Navigator.of(context)
+            .pushNamedAndRemoveUntil('userInfoScreen', (route) => false);
   }
 }

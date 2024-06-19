@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:chatee/methods/methods.dart';
 import 'package:chatee/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -32,15 +35,46 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getUserData() async {
+    DocumentSnapshot documentSnapshot =
+        await _firestore.collection('users').doc(_id).get();
+    _userModel =
+        UserModel.fromMap(documentSnapshot.data() as Map<String, dynamic>);
+    notifyListeners();
+  }
+
+  Future<void> saveUserToSharedPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(
+      'userModel',
+      jsonEncode(
+        _userModel!.toMap(),
+      ),
+    );
+  }
+
+  Future<void> getUserDataFromPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userModelString = sharedPreferences.getString('userModel');
+    if (userModelString != null) {
+      _userModel = UserModel.fromMap(
+        jsonDecode(userModelString),
+      );
+      notifyListeners();
+    }
+  }
+
   Future<void> signInWithPhoneNumber({
     required String phoneNumber,
     required BuildContext context,
   }) async {
     _isLoading = true;
     notifyListeners();
+    print('starting phone number verificatino');
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
+        print('starting signing in with credential');
         await _auth.signInWithCredential(credential).then(
           (value) {
             _id = value.user!.uid;
@@ -50,6 +84,7 @@ class AuthProvider extends ChangeNotifier {
             notifyListeners();
           },
         );
+        print('all done');
       },
       verificationFailed: (FirebaseAuthException e) {
         _isSuccess = false;
@@ -58,6 +93,7 @@ class AuthProvider extends ChangeNotifier {
         showSnackBar(context, e.message!);
       },
       codeSent: (String verificationId, int? resendToken) {
+        print('sending the code');
         _isLoading = false;
         notifyListeners();
         Navigator.of(context).pushNamed(
