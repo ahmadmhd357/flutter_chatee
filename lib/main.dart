@@ -1,5 +1,6 @@
 import 'package:chatee/auth/login_screen.dart';
 import 'package:chatee/auth/otp_screen.dart';
+import 'package:chatee/constants.dart';
 import 'package:chatee/providers/auth_provider.dart';
 import 'package:chatee/screens/chats_screen.dart';
 import 'package:chatee/screens/contacts_screen.dart';
@@ -49,16 +50,16 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         darkTheme: darkTheme,
-        initialRoute: "/loginScreen",
+        initialRoute: Constants.loginScreen,
         routes: {
-          "/loginScreen": (context) => const LoginScreen(),
-          "/otpScreen": (context) => const OTPScreen(),
-          "/userInfoScreen": (context) => const UserInfoScreen(),
-          "/chats": (context) => const ChatsScreen(),
-          "/home": (context) => const HomeScreen(),
-          "/contacts": (context) => const ContactsScreen(),
-          "/groups": (context) => const GroupsScreen(),
-          "/setting": (context) => const SettingScreen(),
+          Constants.loginScreen: (context) => const LoginScreen(),
+          Constants.otpScreen: (context) => const OTPScreen(),
+          Constants.userInfoScreen: (context) => const UserInfoScreen(),
+          Constants.chats: (context) => const ChatsScreen(),
+          Constants.home: (context) => const HomeScreen(),
+          Constants.contacts: (context) => const ContactsScreen(),
+          Constants.groups: (context) => const GroupsScreen(),
+          Constants.setting: (context) => const SettingScreen(),
         },
       ),
     );

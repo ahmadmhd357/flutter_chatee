@@ -1,3 +1,4 @@
+import 'package:chatee/constants.dart';
 import 'package:chatee/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -160,8 +161,8 @@ class _OTPScreenState extends State<OTPScreen> {
   void navigate(bool userExists) {
     userExists
         ? Navigator.of(context)
-            .pushNamedAndRemoveUntil('home', (route) => false)
+            .pushNamedAndRemoveUntil(Constants.home, (route) => false)
         : Navigator.of(context)
-            .pushNamedAndRemoveUntil('userInfoScreen', (route) => false);
+            .pushNamedAndRemoveUntil(Constants.userInfoScreen, (route) => false);
   }
 }

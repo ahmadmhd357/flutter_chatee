@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chatee/constants.dart';
 import 'package:chatee/methods/methods.dart';
 import 'package:chatee/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -70,11 +71,9 @@ class AuthProvider extends ChangeNotifier {
   }) async {
     _isLoading = true;
     notifyListeners();
-    print('starting phone number verificatino');
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
-        print('starting signing in with credential');
         await _auth.signInWithCredential(credential).then(
           (value) {
             _id = value.user!.uid;
@@ -84,7 +83,6 @@ class AuthProvider extends ChangeNotifier {
             notifyListeners();
           },
         );
-        print('all done');
       },
       verificationFailed: (FirebaseAuthException e) {
         _isSuccess = false;
@@ -93,14 +91,13 @@ class AuthProvider extends ChangeNotifier {
         showSnackBar(context, e.message!);
       },
       codeSent: (String verificationId, int? resendToken) {
-        print('sending the code');
         _isLoading = false;
         notifyListeners();
         Navigator.of(context).pushNamed(
-          '/otpScreen',
+          Constants.otpScreen,
           arguments: {
-            'verficationId': verificationId,
-            'phoneNumber': phoneNumber,
+            Constants.verificationId: verificationId,
+            Constants.phoneNumber: phoneNumber,
           },
         );
       },
