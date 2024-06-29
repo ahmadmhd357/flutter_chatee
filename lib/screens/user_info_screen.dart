@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:chatee/methods/methods.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({super.key});
@@ -9,6 +13,40 @@ class UserInfoScreen extends StatefulWidget {
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
   final TextEditingController _nameController = TextEditingController();
+
+  File? imageFile;
+  String userImage = '';
+
+  void selectProfileImage(bool fromCamera) async {
+    imageFile = await imagePicker(
+      fromCamera: fromCamera,
+      onFail: (String message) {
+        showSnackBar(context, message);
+      },
+    );
+    if (imageFile != null) {
+      cropImage(imageFile!.path);
+    }
+  }
+
+  void cropImage(String filePath) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: filePath,
+      maxHeight: 800,
+      maxWidth: 800,
+      compressQuality: 99,
+    );
+    if (croppedFile != null) {
+      setState(() {
+        imageFile = File(croppedFile.path);
+      });
+    }
+    // popDailoge();
+  }
+
+  void popDailoge() {
+    Navigator.of(context).pop();
+  }
 
   @override
   void dispose() {
@@ -29,22 +67,30 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           const SizedBox(
             height: 20,
           ),
-          const Center(
+          Center(
             child: Stack(
               children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundImage:
-                      AssetImage('assets/images/profile_image.png'),
-                ),
+                imageFile != null
+                    ? CircleAvatar(
+                        radius: 60,
+                        backgroundImage: FileImage(File(imageFile!.path)),
+                      )
+                    : const CircleAvatar(
+                        radius: 60,
+                        backgroundImage:
+                            AssetImage('assets/images/profile_image.png'),
+                      ),
                 Positioned(
                   bottom: 0,
                   right: 0,
                   child: CircleAvatar(
                     backgroundColor: Colors.green,
                     radius: 20,
-                    child: Icon(
-                      Icons.camera_alt,
+                    child: IconButton(
+                      onPressed: () {
+                        selectProfileImage(true);
+                      },
+                      icon: const Icon(Icons.camera_alt),
                       color: Colors.white,
                     ),
                   ),

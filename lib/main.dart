@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: theme,
         darkTheme: darkTheme,
-        initialRoute: Constants.loginScreen,
+        initialRoute: Constants.userInfoScreen,
         routes: {
           Constants.loginScreen: (context) => const LoginScreen(),
           Constants.otpScreen: (context) => const OTPScreen(),
