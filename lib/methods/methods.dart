@@ -21,7 +21,9 @@ Future<File?> imagePicker({
           await ImagePicker().pickImage(source: ImageSource.camera);
       if (pickedFile == null) {
         onFail('no image selected');
-      } else {}
+      } else {
+        pickedImage = File(pickedFile.path);
+      }
     } catch (e) {
       onFail(e.toString());
     }
@@ -31,7 +33,9 @@ Future<File?> imagePicker({
           await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedFile == null) {
         onFail('no image selected');
-      } else {}
+      } else {
+        pickedImage = File(pickedFile.path);
+      }
     } catch (e) {
       onFail(e.toString());
     }

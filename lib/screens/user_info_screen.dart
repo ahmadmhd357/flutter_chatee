@@ -17,6 +17,33 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   File? imageFile;
   String userImage = '';
 
+  void showImageModalSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SizedBox(
+        height: MediaQuery.of(context).size.height / 5,
+        child: Column(
+          children: [
+            ListTile(
+              onTap: () {
+                selectProfileImage(true);
+              },
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera'),
+            ),
+            ListTile(
+              onTap: () {
+                selectProfileImage(false);
+              },
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Gallery'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void selectProfileImage(bool fromCamera) async {
     imageFile = await imagePicker(
       fromCamera: fromCamera,
@@ -41,7 +68,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         imageFile = File(croppedFile.path);
       });
     }
-    // popDailoge();
+    popDailoge();
   }
 
   void popDailoge() {
@@ -88,7 +115,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     radius: 20,
                     child: IconButton(
                       onPressed: () {
-                        selectProfileImage(true);
+                        showImageModalSheet(context);
                       },
                       icon: const Icon(Icons.camera_alt),
                       color: Colors.white,
